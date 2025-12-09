@@ -1,31 +1,37 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Users, Target, Heart, Briefcase } from "lucide-react";
+import { Users } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import Image from "next/image";
 
 const DRIVERS = [
     {
-        name: "Alessandro Rossi",
-        number: 11,
-        nationality: "Italian",
+        id: "max-velocity",
+        name: "Max Velocity",
+        number: 1,
+        nationality: "British",
         age: 28,
-        championships: 2,
-        podiums: 45,
-        wins: 18,
-        bio: "Two-time world champion known for aggressive overtaking and exceptional wet-weather performance."
+        championships: 3,
+        podiums: 89,
+        wins: 45,
+        bio: "Three-time world champion known for aggressive overtaking and exceptional wet-weather performance.",
+        image: "/images/Teams_Member/driver1.jpg"
     },
     {
-        name: "Marcus Chen",
-        number: 22,
-        nationality: "Singaporean",
-        age: 25,
-        championships: 0,
-        podiums: 12,
-        wins: 3,
-        bio: "Rising star with exceptional qualifying pace and technical feedback skills."
+        id: "sarah-storm",
+        name: "Sarah Storm",
+        number: 7,
+        nationality: "German",
+        age: 26,
+        championships: 1,
+        podiums: 42,
+        wins: 18,
+        bio: "Rising star and youngest world champion in team history. Known for tactical brilliance and consistency.",
+        image: "/images/Teams_Member/driver2.jpg"
     },
 ];
 
@@ -76,12 +82,27 @@ export default function DriversPage() {
                             >
                                 <Card className="bg-zinc-950/50 border-white/10 hover:border-primary/50 transition-all duration-300 overflow-hidden group">
                                     <CardContent className="p-0">
-                                        {/* Driver Number Header */}
-                                        <div className="bg-gradient-to-r from-primary/20 to-transparent border-b border-white/10 p-6">
-                                            <div className="flex items-center justify-between">
-                                                <div className="text-8xl font-black text-primary/30">#{driver.number}</div>
-                                                <Badge className="bg-zinc-900 text-foreground">{driver.nationality}</Badge>
+                                        {/* Driver Image */}
+                                        <div className="relative h-80 overflow-hidden bg-zinc-900">
+                                            <Image
+                                                src={driver.image}
+                                                alt={driver.name}
+                                                fill
+                                                className="object-cover object-top transition-all duration-500 group-hover:scale-110"
+                                                sizes="(max-width: 768px) 100vw, 50vw"
+                                            />
+                                            {/* Gradient Overlay */}
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
+
+                                            {/* Driver Number Overlay */}
+                                            <div className="absolute top-4 left-4 text-8xl font-black text-white/20 group-hover:text-primary/30 transition-colors duration-300">
+                                                #{driver.number}
                                             </div>
+
+                                            {/* Nationality Badge */}
+                                            <Badge className="absolute top-4 right-4 bg-black/60 backdrop-blur-sm text-white border-white/20">
+                                                {driver.nationality}
+                                            </Badge>
                                         </div>
 
                                         {/* Driver Info */}
@@ -111,9 +132,11 @@ export default function DriversPage() {
                                                 </div>
                                             </div>
 
-                                            <Button className="w-full bg-primary hover:bg-primary/90">
-                                                View Full Profile
-                                            </Button>
+                                            <Link href={`/team/drivers/${driver.id}`}>
+                                                <Button className="w-full bg-primary hover:bg-primary/90">
+                                                    View Full Profile
+                                                </Button>
+                                            </Link>
                                         </div>
                                     </CardContent>
                                 </Card>

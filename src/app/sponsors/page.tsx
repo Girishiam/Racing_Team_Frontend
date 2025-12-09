@@ -56,7 +56,7 @@ export default function SponsorsPage() {
                 <div className="relative z-10">
                     <h2 className="text-3xl font-bold uppercase italic mb-4">Join the Race</h2>
                     <p className="text-muted-foreground mb-8 max-w-xl mx-auto">
-                        Discover unique branding opportunities and high-octane engagement for your business. Let's win together.
+                        Discover unique branding opportunities and high-octane engagement for your business. Let&apos;s win together.
                     </p>
                     <Button size="lg" className="font-bold uppercase tracking-wider px-8">
                         Become a Sponsor

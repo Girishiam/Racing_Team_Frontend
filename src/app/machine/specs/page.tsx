@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Gauge, Zap, Settings, Award } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import Image from "next/image";
 
 const SPECS = {
     engine: {
@@ -56,6 +57,58 @@ export default function SpecsPage() {
                             Engineering excellence meets raw power. Discover the technology that drives our championship ambitions.
                         </p>
                     </motion.div>
+                </div>
+            </section>
+
+            {/* Car Gallery */}
+            <section className="py-16 border-b border-white/10">
+                <div className="container mx-auto px-4">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+                        className="mb-12"
+                    >
+                        <h2 className="text-4xl font-black italic uppercase mb-4">
+                            Car <span className="text-primary">Gallery</span>
+                        </h2>
+                        <p className="text-muted-foreground max-w-2xl">
+                            Explore our championship-winning machine from every angle.
+                        </p>
+                    </motion.div>
+
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {[1, 2, 3, 4, 5, 6, 7].map((num, index) => (
+                            <motion.div
+                                key={num}
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ delay: index * 0.1, duration: 0.5 }}
+                            >
+                                <Card className="bg-zinc-950/50 border-white/10 hover:border-primary/50 transition-all duration-300 overflow-hidden group cursor-pointer">
+                                    <CardContent className="p-0">
+                                        <div className="relative aspect-video overflow-hidden bg-zinc-900">
+                                            <Image
+                                                src={`/images/bikes/${num}.jpg`}
+                                                alt={`Car view ${num}`}
+                                                fill
+                                                className="object-cover transition-all duration-500 group-hover:scale-110"
+                                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                            />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
+
+                                            {/* View Number */}
+                                            <div className="absolute bottom-4 left-4 text-white">
+                                                <Badge className="bg-black/60 backdrop-blur-sm text-white border-white/20">
+                                                    View {num}
+                                                </Badge>
+                                            </div>
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            </motion.div>
+                        ))}
+                    </div>
                 </div>
             </section>
 

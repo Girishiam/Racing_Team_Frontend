@@ -1,57 +1,73 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Video, Play } from "lucide-react";
+import { Camera, Download, Share2, ZoomIn } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import Image from "next/image";
+import { useState } from "react";
 
-const VIDEOS = [
+const GALLERY_IMAGES = [
     {
         id: 1,
-        title: "Monaco GP 2024 - Race Highlights",
-        duration: "5:42",
-        views: "2.4M",
-        category: "Race Highlights",
-        featured: true
+        src: "/images/Gallery/1.jpg",
+        title: "Race Action - Monaco GP",
+        category: "Race Day",
+        views: "2.4M"
     },
     {
         id: 2,
-        title: "Behind the Scenes: Pit Stop Perfection",
-        duration: "8:15",
-        views: "1.2M",
-        category: "Behind the Scenes"
+        src: "/images/Gallery/2.jpg",
+        title: "Pit Stop Excellence",
+        category: "Behind the Scenes",
+        views: "1.8M"
     },
     {
         id: 3,
-        title: "Driver Onboard: Qualifying Lap",
-        duration: "3:28",
-        views: "890K",
-        category: "Onboard"
+        src: "/images/Gallery/3.jpg",
+        title: "Victory Celebration",
+        category: "Race Day",
+        views: "3.2M"
     },
     {
         id: 4,
-        title: "Team Radio: Best Moments",
-        duration: "6:33",
-        views: "1.5M",
-        category: "Team Radio"
+        src: "/images/Gallery/4.jpg",
+        title: "Team Garage",
+        category: "Behind the Scenes",
+        views: "950K"
     },
     {
         id: 5,
-        title: "Car Launch 2024 Season",
-        duration: "12:45",
-        views: "3.1M",
-        category: "Special"
+        src: "/images/Gallery/5.jpg",
+        title: "Driver Focus",
+        category: "Portraits",
+        views: "1.5M"
     },
     {
         id: 6,
-        title: "Driver Interview: Championship Thoughts",
-        duration: "7:20",
-        views: "750K",
-        category: "Interviews"
+        src: "/images/Gallery/6.jpg",
+        title: "Track Dominance",
+        category: "Race Day",
+        views: "2.1M"
     },
+    {
+        id: 7,
+        src: "/images/Gallery/7.jpg",
+        title: "Championship Moment",
+        category: "Special",
+        views: "4.5M"
+    }
 ];
 
+const CATEGORIES = ["All", "Race Day", "Behind the Scenes", "Portraits", "Special"];
+
 export default function GalleryPage() {
+    const [selectedCategory, setSelectedCategory] = useState("All");
+
+    const filteredImages = selectedCategory === "All"
+        ? GALLERY_IMAGES
+        : GALLERY_IMAGES.filter(img => img.category === selectedCategory);
+
     return (
         <div className="min-h-screen bg-background">
             {/* Hero Section */}
@@ -64,106 +80,124 @@ export default function GalleryPage() {
                         className="max-w-4xl"
                     >
                         <Badge className="mb-4 bg-primary/20 text-primary border-primary/30">
-                            Video Gallery
+                            Photo Gallery
                         </Badge>
                         <h1 className="text-5xl md:text-7xl font-black italic uppercase tracking-tighter mb-4">
-                            Watch & <span className="text-primary">Replay</span>
+                            Visual <span className="text-primary">Stories</span>
                         </h1>
                         <p className="text-xl text-muted-foreground max-w-2xl">
-                            Relive the action with race highlights, behind-the-scenes content, and exclusive team footage.
+                            Capturing the intensity, passion, and glory of motorsport through stunning photography.
                         </p>
                     </motion.div>
                 </div>
             </section>
 
-            {/* Video Gallery */}
-            <section className="py-16">
-                <div className="container mx-auto px-4">
-                    {/* Featured Video */}
-                    {VIDEOS.filter(v => v.featured).map((video, index) => (
-                        <motion.div
-                            key={video.id}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.1, duration: 0.6 }}
-                            className="mb-12"
+            <div className="container mx-auto px-4 py-16">
+                {/* Category Filter */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2, duration: 0.6 }}
+                    className="flex flex-wrap gap-3 mb-12"
+                >
+                    {CATEGORIES.map((category) => (
+                        <button
+                            key={category}
+                            onClick={() => setSelectedCategory(category)}
+                            className={`px-6 py-2 rounded-lg font-bold uppercase text-sm transition-all duration-300 ${selectedCategory === category
+                                    ? "bg-primary text-white"
+                                    : "bg-white/5 text-muted-foreground hover:bg-white/10"
+                                }`}
                         >
-                            <Card className="bg-zinc-950/50 border-white/10 hover:border-primary/50 transition-all duration-300 overflow-hidden group">
+                            {category}
+                        </button>
+                    ))}
+                </motion.div>
+
+                {/* Gallery Grid */}
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {filteredImages.map((image, index) => (
+                        <motion.div
+                            key={image.id}
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: index * 0.1, duration: 0.5 }}
+                            layout
+                        >
+                            <Card className="bg-zinc-950/50 border-white/10 hover:border-primary/50 transition-all duration-300 overflow-hidden group cursor-pointer">
                                 <CardContent className="p-0">
-                                    {/* Video Thumbnail */}
-                                    <div className="relative bg-gradient-to-br from-primary/20 to-zinc-900 aspect-video flex items-center justify-center cursor-pointer">
-                                        <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all duration-300"></div>
-                                        <motion.div
-                                            whileHover={{ scale: 1.1 }}
-                                            className="relative z-10 w-20 h-20 bg-primary rounded-full flex items-center justify-center shadow-2xl"
-                                        >
-                                            <Play className="w-10 h-10 text-white ml-1" fill="white" />
-                                        </motion.div>
-                                        <Badge className="absolute top-4 left-4 bg-primary text-white">
-                                            Featured
-                                        </Badge>
-                                        <Badge className="absolute bottom-4 right-4 bg-black/80 text-white">
-                                            {video.duration}
+                                    {/* Image Container */}
+                                    <div className="relative aspect-[4/3] overflow-hidden bg-zinc-900">
+                                        <Image
+                                            src={image.src}
+                                            alt={image.title}
+                                            fill
+                                            className="object-cover transition-all duration-500 group-hover:scale-110"
+                                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                        />
+
+                                        {/* Overlay */}
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
+
+                                        {/* Hover Actions */}
+                                        <div className="absolute inset-0 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                            <motion.button
+                                                whileHover={{ scale: 1.1 }}
+                                                whileTap={{ scale: 0.95 }}
+                                                className="w-12 h-12 rounded-full bg-primary flex items-center justify-center hover:bg-primary/90 transition-colors"
+                                            >
+                                                <ZoomIn className="w-5 h-5 text-white" />
+                                            </motion.button>
+                                            <motion.button
+                                                whileHover={{ scale: 1.1 }}
+                                                whileTap={{ scale: 0.95 }}
+                                                className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center hover:bg-white/20 transition-colors"
+                                            >
+                                                <Download className="w-5 h-5 text-white" />
+                                            </motion.button>
+                                            <motion.button
+                                                whileHover={{ scale: 1.1 }}
+                                                whileTap={{ scale: 0.95 }}
+                                                className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center hover:bg-white/20 transition-colors"
+                                            >
+                                                <Share2 className="w-5 h-5 text-white" />
+                                            </motion.button>
+                                        </div>
+
+                                        {/* Category Badge */}
+                                        <Badge className="absolute top-4 right-4 bg-black/60 backdrop-blur-sm text-white border-white/20">
+                                            {image.category}
                                         </Badge>
                                     </div>
 
-                                    {/* Video Info */}
-                                    <div className="p-6">
-                                        <Badge className="mb-3 bg-zinc-800 text-muted-foreground">
-                                            {video.category}
-                                        </Badge>
-                                        <h2 className="text-2xl font-black italic uppercase mb-2 group-hover:text-primary transition-colors">
-                                            {video.title}
-                                        </h2>
-                                        <p className="text-sm text-muted-foreground">{video.views} views</p>
+                                    {/* Image Info */}
+                                    <div className="p-4">
+                                        <h3 className="font-bold text-lg mb-2 group-hover:text-primary transition-colors">
+                                            {image.title}
+                                        </h3>
+                                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                                            <Camera className="w-4 h-4" />
+                                            <span>{image.views} views</span>
+                                        </div>
                                     </div>
                                 </CardContent>
                             </Card>
                         </motion.div>
                     ))}
-
-                    {/* Video Grid */}
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {VIDEOS.filter(v => !v.featured).map((video, index) => (
-                            <motion.div
-                                key={video.id}
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.2 + index * 0.1, duration: 0.6 }}
-                            >
-                                <Card className="bg-zinc-950/50 border-white/10 hover:border-primary/50 transition-all duration-300 overflow-hidden group">
-                                    <CardContent className="p-0">
-                                        {/* Video Thumbnail */}
-                                        <div className="relative bg-gradient-to-br from-zinc-800 to-zinc-900 aspect-video flex items-center justify-center cursor-pointer">
-                                            <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all duration-300"></div>
-                                            <motion.div
-                                                whileHover={{ scale: 1.1 }}
-                                                className="relative z-10 w-16 h-16 bg-primary rounded-full flex items-center justify-center shadow-xl"
-                                            >
-                                                <Play className="w-8 h-8 text-white ml-1" fill="white" />
-                                            </motion.div>
-                                            <Badge className="absolute bottom-2 right-2 bg-black/80 text-white text-xs">
-                                                {video.duration}
-                                            </Badge>
-                                        </div>
-
-                                        {/* Video Info */}
-                                        <div className="p-4">
-                                            <Badge className="mb-2 bg-zinc-800 text-muted-foreground text-xs">
-                                                {video.category}
-                                            </Badge>
-                                            <h3 className="text-lg font-bold mb-1 group-hover:text-primary transition-colors line-clamp-2">
-                                                {video.title}
-                                            </h3>
-                                            <p className="text-xs text-muted-foreground">{video.views} views</p>
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                            </motion.div>
-                        ))}
-                    </div>
                 </div>
-            </section>
+
+                {/* Load More Button */}
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.8 }}
+                    className="text-center mt-12"
+                >
+                    <button className="px-8 py-3 bg-primary hover:bg-primary/90 text-white font-bold uppercase rounded-lg transition-colors duration-300">
+                        Load More Photos
+                    </button>
+                </motion.div>
+            </div>
         </div>
     );
 }
