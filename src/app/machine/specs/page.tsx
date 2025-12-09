@@ -78,31 +78,75 @@ export default function SpecsPage() {
                     </motion.div>
 
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {[1, 2, 3, 4, 5, 6, 7].map((num, index) => (
+                        {[
+                            {
+                                num: 1,
+                                title: "Night City Rush",
+                                description: "Urban performance captured in motion through city streets"
+                            },
+                            {
+                                num: 2,
+                                title: "Track Domination",
+                                description: "Precision cornering at championship-winning speeds"
+                            },
+                            {
+                                num: 3,
+                                title: "Speed Blur",
+                                description: "Raw power and velocity on the racing circuit"
+                            },
+                            {
+                                num: 4,
+                                title: "Championship Colors",
+                                description: "Our iconic livery in full racing glory"
+                            },
+                            {
+                                num: 5,
+                                title: "Sunset Circuit",
+                                description: "Golden hour performance on the track"
+                            },
+                            {
+                                num: 6,
+                                title: "Racing Precision",
+                                description: "Every detail engineered for victory"
+                            },
+                            {
+                                num: 7,
+                                title: "Track Beast",
+                                description: "The ultimate racing machine in action"
+                            }
+                        ].map((view, index) => (
                             <motion.div
-                                key={num}
+                                key={view.num}
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 transition={{ delay: index * 0.1, duration: 0.5 }}
                             >
-                                <Card className="bg-zinc-950/50 border-white/10 hover:border-primary/50 transition-all duration-300 overflow-hidden group cursor-pointer">
+                                <Card className="bg-zinc-950/50 border-white/10 hover:border-primary/50 transition-all duration-300 overflow-hidden group h-full">
                                     <CardContent className="p-0">
                                         <div className="relative aspect-video overflow-hidden bg-zinc-900">
                                             <Image
-                                                src={`/images/bikes/${num}.jpg`}
-                                                alt={`Car view ${num}`}
+                                                src={`/images/bikes/${view.num}.jpg`}
+                                                alt={view.title}
                                                 fill
-                                                className="object-cover transition-all duration-500 group-hover:scale-110"
+                                                className="object-cover transition-all duration-500 group-hover:scale-105"
                                                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                             />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
 
-                                            {/* View Number */}
-                                            <div className="absolute bottom-4 left-4 text-white">
-                                                <Badge className="bg-black/60 backdrop-blur-sm text-white border-white/20">
-                                                    View {num}
-                                                </Badge>
-                                            </div>
+                                            {/* View Number Badge */}
+                                            <Badge className="absolute top-4 right-4 bg-black/60 backdrop-blur-sm text-white border-white/20">
+                                                View {view.num}
+                                            </Badge>
+                                        </div>
+
+                                        {/* Card Info */}
+                                        <div className="p-5">
+                                            <h3 className="text-xl font-black italic uppercase mb-2 group-hover:text-primary transition-colors">
+                                                {view.title}
+                                            </h3>
+                                            <p className="text-sm text-muted-foreground">
+                                                {view.description}
+                                            </p>
                                         </div>
                                     </CardContent>
                                 </Card>
